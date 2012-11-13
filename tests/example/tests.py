@@ -51,7 +51,7 @@ class EncodeTests(BaseTest):
             widget = Widget.objects.get(pk=encoded['pk'])
             for k in ('title','active','description'):
                 self.assertEquals(encoded[k],getattr(widget,k))
-        
+
 
 class EndpointTests(BaseTest):
     def test_echo(self):

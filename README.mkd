@@ -7,7 +7,7 @@ Additionally, this package allows you to create AJAX endpoints for manipulating 
 # Install
 
 1. Make sure you have the [decorator](http://pypi.python.org/pypi/decorator) package installed.
-2. Install the `ajax/` directory as you would any other application in your Django project or put it in your Django project's `sys.path` somewhere. 
+2. Install the `ajax/` directory as you would any other application in your Django project or put it in your Django project's `sys.path` somewhere.
 3. Add `ajax` to `INSTALLED_APPS` in your `settings.py`.
 4. In your Django project's `urls.py` add `(r'^ajax/', include('ajax.urls'))`.
 
@@ -35,7 +35,7 @@ The following is a simple example of an AJAX endpoint that just echo's back the 
         else:
             raise AJAXError(500, 'Nothing to echo back.')
 
-If you're surfacing a known error, it's best to use `AJAXError` with a sane error code and a message. All other exceptions will be returned as a 500 with a generic error message. 
+If you're surfacing a known error, it's best to use `AJAXError` with a sane error code and a message. All other exceptions will be returned as a 500 with a generic error message.
 
 From JavaScript you can easily access the endpoint using jQuery.
 
@@ -46,7 +46,7 @@ From JavaScript you can easily access the endpoint using jQuery.
 
 You can also create endpoints from callable objects. The `BaseEndpoint` class has two functions that are pretty helpful for encoding Django a `QuerySet` or an instance of `Model`.
 
-	# BaseEndpoint._encode_*` appears to have been depricated. 
+	# BaseEndpoint._encode_*` appears to have been depricated.
 	# You should use ajax.encoders.encoder in the future:
 
 	from ajax.encoders import encoder
@@ -79,7 +79,7 @@ AJAX also offers a class, called `ModelEndpoint`, that takes a Django model and 
 
     import ajax
     from my_app.models import Category
-    
+
     class CategoryEndpoint(ajax.endpoints.ModelEndpoint):
         pass
 
@@ -102,18 +102,18 @@ For example, you could add a method called `about` that will display some info a
 
 	import ajax
     from my_app.models import Category
-    
-    class CategoryEndpoint(ajax.endpoints.ModelEndpoint):	
-		
+
+    class CategoryEndpoint(ajax.endpoints.ModelEndpoint):
+
 		...
-		
+
 		def about(self,request):
 			pk = self.pk
         	if pk:
-           		return {"message" : "run an operation on record: %s"%self._get_record()}        
+           		return {"message" : "run an operation on record: %s"%self._get_record()}
         	else:
            		return {"message" : "run an operation on model: %s"%self.model.__name__}
-			
+
 Now, in addition to the endpoints above, this method would be available at:
 
 * `/ajax/my_app/category/about.json` - would return "run an operation on model: ..."
@@ -133,7 +133,7 @@ In addition to expanding `ForeignKey` while fetching, they are expanded when cre
 
 ### Support for django-taggit
 
-The popular [django-taggit](https://github.com/alex/django-taggit/) is great for adding tags to your Django models. The entire `django-taggit` [API](http://django-taggit.readthedocs.org/en/latest/api.html) is exposed via AJAX for models that have the `tags` attribute. 
+The popular [django-taggit](https://github.com/alex/django-taggit/) is great for adding tags to your Django models. The entire `django-taggit` [API](http://django-taggit.readthedocs.org/en/latest/api.html) is exposed via AJAX for models that have the `tags` attribute.
 
 * `/ajax/my_app/mymodel/{pk}/tags/add.json` will add the tags specified by the `POST` parameter `tags`, which is a comma separated list of tags.
 * `/ajax/my_app/mymodel/{pk}/tags/remove.json` will remove the tags specified by the `POST` parameter `tags`.
@@ -153,7 +153,7 @@ There are a number of security features inherent in the framework along with way
 
 ## Framework Security
 
-* All requests to an AJAX endpoint must be sent via `POST`, including a GET on a model's `pk`. 
+* All requests to an AJAX endpoint must be sent via `POST`, including a GET on a model's `pk`.
 * The default `ModelEndpoint.authenticate()` method requires that a user is, at a minimum, logged in.
 
 ## Decorators
@@ -176,9 +176,9 @@ The `ModelEndpoint` class offers a number of methods that you can override to ad
 
 Returns `True` if the `user` can create a new `record` using the given model.
 
-### (bool) ModelEndpoint.can_update(user, record)
+### (bool) ModelEndpoint.can_update(user, record, modified=None)
 
-Returns `True` if the `user` can update the given `record`.
+Returns `True` if the `user` can update the given `record`. `Modified` is a representation of the record after updates have been applied.
 
 ### (bool) ModelEndpoint.can_delete(user, record)
 
@@ -194,4 +194,4 @@ This method is ran before any other security-related operations. This method all
 
 # Todo
 
-1. Integrate [Django's CSRF token support](http://docs.djangoproject.com/en/dev/ref/contrib/csrf/). 
+1. Integrate [Django's CSRF token support](http://docs.djangoproject.com/en/dev/ref/contrib/csrf/).

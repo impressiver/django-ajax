@@ -13,8 +13,8 @@ setup(
     license='BSD',
     packages=find_packages(),
     zip_safe=False,
-    install_requires=['decorator',],
-    extras_require = {
+    install_requires=['decorator'],
+    extras_require={
         'Tagging': ['taggit']
     },
     include_package_data=True,
